@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ADUE International Schools — Login</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    /* ── LOGIN PAGE SPECIFIC ── */
+    body {
+      background: linear-gradient(135deg, var(--wine) 0%, var(--wine2) 40%, var(--red) 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 20%, rgba(212,175,55,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 15% 85%, rgba(255,255,255,0.07) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Decorative circles */
+    body::after {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      border: 1px solid rgba(212,175,55,0.12);
+      top: -100px; right: -100px;
+      pointer-events: none;
+    }
+
+    .login-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      padding: 20px;
+      animation: fadeUp 0.5s ease;
+    }
+
+    .login-card {
+      background: rgba(253,246,236,0.97);
+      border-radius: 20px;
+      padding: 48px 44px;
+      box-shadow: var(--shadow2);
+      border-top: 5px solid var(--gold);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+
+    .login-logo .school-icon {
+      font-size: 52px;
+      display: block;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 4px 8px rgba(92,10,32,0.2));
+    }
+
+    .login-logo h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      color: var(--wine);
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+
+    .login-logo .school-full {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1.5px;
+    }
+
+    .login-logo .divider {
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+      margin: 12px auto 0;
+      border-radius: 2px;
+    }
+
+    .login-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      color: var(--wine);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--wine), var(--red));
+      border: none;
+      border-radius: var(--radius-sm);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: 4px;
+    }
+    .btn-login:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+    }
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .login-footer .copyright {
+      margin-top: 8px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    #login-err {
+      min-height: 20px;
+      font-size: 13px;
+      color: var(--danger);
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    /* ── SHOW/HIDE PASSWORD ── */
+    .input-eye {
+      position: relative;
+    }
+    .input-eye input {
+      padding-right: 40px;
+    }
+    .eye-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--muted);
+      padding: 0;
+      line-height: 1;
+    }
+    .eye-btn:hover { color: var(--wine); }
+
+    @media (max-width: 480px) {
+      .login-card { padding: 36px 24px; }
+      .login-logo h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-wrapper">
+    <div class="login-card">
+
+      <!-- Logo -->
+      <div class="login-logo">
+        <span class="school-icon">🏫</span>
+        <h1>ADUE</h1>
+        <p class="school-full">International Schools</p>
+        <div class="divider"></div>
+      </div>
+
+      <p class="login-title">School Management Portal</p>
+
+      <!-- Error message -->
+      <div id="login-err"></div>
+
+      <!-- Username -->
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          class="form-control"
+          type="text"
+          id="username"
+          placeholder="Enter your username"
+          autocomplete="username"
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-eye">
+          <input
+            class="form-control"
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          />
+          <button class="eye-btn" onclick="togglePass()" id="eye-btn" title="Show/hide password">👁</button>
+        </div>
+      </div>
+
+      <!-- Login Button -->
+      <button class="btn-login" onclick="doLogin()" id="login-btn">
+        Sign In
+      </button>
+
+      <!-- Footer -->
+      <div class="login-footer">
+        <p>Session 2024/2025 &nbsp;·&nbsp; ADUE International Schools</p>
+      </div>
+
+    </div>
+
+    <p class="login-footer copyright" style="color:rgba(255,255,255,0.45);text-align:center;margin-top:16px;font-size:11px">
+      © 2025 ADUE International Schools. All rights reserved.
+    </p>
+  </div>
+
+  <script>
+    /* ── CREDENTIALS stored in localStorage ── */
+    const DEFAULT_USER = 'admin';
+    const DEFAULT_PASS = 'adue2025';
+
+    function getCredentials() {
+      return {
+        username: localStorage.getItem('adue_username') || DEFAULT_USER,
+        password: localStorage.getItem('adue_password') || DEFAULT_PASS,
+      };
+    }
+
+    /* ── LOGIN ── */
+    function doLogin() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const errEl    = document.getElementById('login-err');
+      const btn      = document.getElementById('login-btn');
+
+      errEl.textContent = '';
+
+      if (!username || !password) {
+        errEl.textContent = 'Please enter your username and password.';
+        return;
+      }
+
+      const creds = getCredentials();
+
+      if (username === creds.username && password === creds.password) {
+        btn.textContent = 'Signing in…';
+        btn.disabled = true;
+        // Save login session
+        localStorage.setItem('adue_logged_in', 'true');
+        localStorage.setItem('adue_login_user', username);
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 600);
+      } else {
+        errEl.textContent = 'Invalid username or password. Please try again.';
+        document.getElementById('password').value = '';
+        document.getElementById('password').focus();
+      }
+    }
+
+    /* ── SHOW / HIDE PASSWORD ── */
+    function togglePass() {
+      const input = document.getElementById('password');
+      const btn   = document.getElementById('eye-btn');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁';
+      }
+    }
+
+    /* ── ENTER KEY ── */
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doLogin();
+    });
+
+    /* ── REDIRECT IF ALREADY LOGGED IN ── */
+    if (localStorage.getItem('adue_logged_in') === 'true') {
+      window.location.href = 'dashboard.html';
+    }
+  </script>
+
+</body>
+</html>
