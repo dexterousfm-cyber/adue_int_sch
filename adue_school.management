@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADUE International School - Portal Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 420px;
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            background: #1e3a8a;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .school-logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e3a8a;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .login-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .login-body {
+            padding: 2rem;
+        }
+
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 0.7rem;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .role-btn.active {
+            background: white;
+            color: #1e3a8a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .login-btn:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(30,58,138,0.3);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .forgot-password a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .help-text {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        .help-text strong {
+            color: #1e3a8a;
+        }
+
+        /* Role-specific hints */
+        .role-hint {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .role-hint.active {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                max-width: 100%;
+            }
+            
+            .role-selector {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="school-logo">AIS</div>
+            <h1>ADUE International School</h1>
+            <p>Student & Staff Portal</p>
+        </div>
+
+        <div class="login-body">
+            <div class="role-selector">
+                <button class="role-btn active" onclick="switchRole('student')">Student</button>
+                <button class="role-btn" onclick="switchRole('teacher')">Teacher</button>
+                <button class="role-btn" onclick="switchRole('admin')">Admin</button>
+            </div>
+
+            <!-- Student Hint -->
+            <div class="role-hint active" id="student-hint">
+                💡 <strong>Students:</strong> Use your Admission Number (e.g., AIS/2026/001)
+            </div>
+
+            <!-- Teacher Hint -->
+            <div class="role-hint" id="teacher-hint">
+                💡 <strong>Teachers:</strong> Use your Staff ID (e.g., TCH/001)
+            </div>
+
+            <!-- Admin Hint -->
+            <div class="role-hint" id="admin-hint">
+                💡 <strong>Admin:</strong> Use your Administrator ID
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username / ID</label>
+                    <input type="text" id="username" placeholder="Enter your ID" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+
+            <div class="forgot-password">
+                <a href="#" onclick="alert('Contact IT Admin to reset password')">Forgot Password?</a>
+            </div>
+
+            <div class="help-text">
+                <strong>Need Help?</strong><br>
+                Contact: support@adueschool.edu.ng<br>
+                Years 7 - 12 | Excellence in Education
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRole = 'student';
+
+        function switchRole(role) {
+            currentRole = role;
+            
+            // Update buttons
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update hints
+            document.querySelectorAll('.role-hint').forEach(hint => {
+                hint.classList.remove('active');
+            });
+            document.getElementById(role + '-hint').classList.add('active');
+            
+            // Update placeholder
+            const usernameInput = document.getElementById('username');
+            if (role === 'student') {
+                usernameInput.placeholder = 'e.g., AIS/2026/001';
+            } else if (role === 'teacher') {
+                usernameInput.placeholder = 'e.g., TCH/001';
+            } else {
+                usernameInput.placeholder = 'Admin ID';
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation demo
+            if (username && password) {
+                // Redirect based on role
+                if (currentRole === 'student') {
+                    window.location.href = 'student-dashboard.html';
+                } else if (currentRole === 'teacher') {
+                    window.location.href = 'teacher-dashboard.html';
+                } else {
+                    window.location.href = 'admin-dashboard.html';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+
